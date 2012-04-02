@@ -540,7 +540,7 @@ Strophe = {
         AUTH: "jabber:iq:auth",
         ROSTER: "jabber:iq:roster",
         PROFILE: "jabber:iq:profile",
-        DISCO_INFO: "http://jabber.org/protocol/disco#info",
+        DISCO_INFO: "http://jabber.org/protocol/disco\#info", /* Small hack to prevent velocity evaluation */
         DISCO_ITEMS: "http://jabber.org/protocol/disco#items",
         MUC: "http://jabber.org/protocol/muc",
         SASL: "urn:ietf:params:xml:ns:xmpp-sasl",
