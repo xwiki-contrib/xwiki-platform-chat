@@ -41,7 +41,7 @@ public class NullUserAuthorization implements UserAuthorization
      */
     public boolean verifyCredentials(Entity jid, String passwordCleartext, Object credentials)
     {
-        logger.info("User with JID {} is logging in", jid.toString());
+        logger.info("User with JID {} is logging in ({})", jid.toString(), credentials);
         return true;
     }
 
@@ -50,7 +50,7 @@ public class NullUserAuthorization implements UserAuthorization
      */
     public boolean verifyCredentials(String username, String passwordCleartext, Object credentials)
     {
-        logger.info("User {} is logging in", username);
+        logger.info("User {} is logging in ({})", username, credentials);
         return true;
     }
 
