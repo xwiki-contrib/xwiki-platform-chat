@@ -39,4 +39,123 @@
     <xwiki.clirr.skip>true</xwiki.clirr.skip>
   </properties>
 
+  <dependencies>
+    <dependency>
+      <groupId>org.xwiki.enterprise</groupId>
+      <artifactId>xwiki-enterprise-ui-all</artifactId>
+      <version>${project.version}</version>
+      <type>xar</type>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.xwiki.commons</groupId>
+        <artifactId>xwiki-commons-tool-xar-plugin</artifactId>
+        <executions>
+          <!-- Unpack XE xar so that we can package the XWiki chat skin. -->
+          <execution>
+            <id>unxar-xwiki-enterprise-ui-all</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>unxar</goal>
+            </goals>
+            <configuration>
+              <groupId>org.xwiki.enterprise</groupId>
+              <artifactId>xwiki-enterprise-ui-all</artifactId>
+              <outputDirectory>${project.build.outputDirectory}</outputDirectory>
+            </configuration>
+          </execution>
+          <!-- Package everything as a XAR -->
+          <execution>
+            <id>package-xar</id>
+            <phase>package</phase>
+            <goals>
+              <goal>xar</goal>
+            </goals>
+            <configuration>
+              <includeDependencies>true</includeDependencies>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>xml-maven-plugin</artifactId>
+        <executions>
+          <!-- Build the skin file by adding resources to the wiki document's XML. -->
+          <execution>
+            <id>build-xwiki-chat-skin</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>transform</goal>
+            </goals>
+            <configuration>
+              <transformationSets>
+                <transformationSet>
+                  <dir>${project.build.outputDirectory}</dir>
+                  <outputDir>${project.build.outputDirectory}</outputDir>
+                  <includes>
+                    <include>XWiki/XWikiChatSkin.xml</include>
+                  </includes>
+                  <stylesheet>src/main/build/transformations/xwiki-chat-skin.xsl</stylesheet>
+                  <!-- These parameters are used to embed needed resources in the skin file. If you want to add more resources, make sure to add them also in the XSL file! -->
+                  <parameters>
+                    <!-- XWiki template overrides -->
+                    <parameter>
+                      <name>stylesheets.vm.path</name>
+                      <value>${basedir}/src/main/templates/stylesheets.vm</value>
+                    </parameter>
+                    <parameter>
+                      <name>javascript.vm.path</name>
+                      <value>${basedir}/src/main/templates/javascript.vm</value>
+                    </parameter>
+                    <parameter>
+                      <name>footer.vm.path</name>
+                      <value>${basedir}/src/main/templates/footer.vm</value>
+                    </parameter>
+                    <!-- Strophe javascript-->
+                    <parameter>
+                      <name>strophe.js.path</name>
+                      <value>${basedir}/src/main/js/strophe.js</value>
+                    </parameter>
+                    <parameter>
+                      <name>strophe.muc.js.path</name>
+                      <value>${basedir}/src/main/js/strophe.muc.js</value>
+                    </parameter>
+                    <!-- XWiki chat javascript -->
+                    <parameter>
+                      <name>xwiki-chat.js.path</name>
+                      <value>${basedir}/src/main/js/xwiki-chat.js</value>
+                    </parameter>
+                    <parameter>
+                      <name>xwiki-chat-ui.js.path</name>
+                      <value>${basedir}/src/main/js/xwiki-chat-ui.js</value>
+                    </parameter>
+                    <!-- XWiki chat CSS -->
+                    <parameter>
+                      <name>
+                        xwiki-chat.css.path</name>
+                      <value>${basedir}/src/main/css/xwiki-chat.css</value>
+                    </parameter>
+                  </parameters>
+                </transformationSet>
+              </transformationSets>
+            </configuration>
+          </execution>
+        </executions>
+        <!-- Include Saxon for XSLT 2.0 processor. -->
+        <dependencies>
+          <dependency>
+            <groupId>net.sf.saxon</groupId>
+            <artifactId>saxon</artifactId>
+            <version>8.7</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+    </plugins>
+  </build>
+
 </project>
