@@ -1,9 +1,7 @@
 Introduction
 ============
 
-This project contains an integration of an XMPP based chat in XWiki
-
-<iframe width="560" height="315" src="http://www.youtube.com/embed/0Gwtpu3iVwo" frameborder="0" allowfullscreen></iframe>
+This project contains an integration of an XMPP based chat in XWiki (see http://www.youtube.com/embed/0Gwtpu3iVwo)
 
 Installation
 ------------
@@ -16,17 +14,17 @@ Installation
 
 * Add the following lines to the `webapps/xwiki/WEB-INF/web.xml`:
 
-	<listener>
-		<listener-class>org.xwiki.chat.server.XMPPServerContextListener</listener-class>`
-	</listener>
-	<servlet>
-		<servlet-name>BoshServlet</servlet-name>
-		<servlet-class>org.xwiki.chat.server.XMPPServerBoshServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>BoshServlet</servlet-name>
-		<url-pattern>/bosh</url-pattern>
-	</servlet-mapping>
+	`<listener>`<br/>
+	`	<listener-class>org.xwiki.chat.server.XMPPServerContextListener</listener-class>`<br/>
+	`</listener>`<br/>
+	`<servlet>`<br/>
+	`	<servlet-name>BoshServlet</servlet-name>`<br/>
+	`	<servlet-class>org.xwiki.chat.server.XMPPServerBoshServlet</servlet-class>`<br/>
+	`</servlet>`<br/>
+	`<servlet-mapping>`<br/>
+	`<servlet-name>BoshServlet</servlet-name>`<br/>
+	`	<url-pattern>/bosh</url-pattern>`<br/>
+	`</servlet-mapping>`<br/>
 
 * Run XWiki with `start_xwiki.sh` and import the XAR `xwiki-chat-platform-ui/target/xwiki-chat-platform-ui.xar`. To go fast you can only import the page `XWiki.XWikiChatSkin`
 
