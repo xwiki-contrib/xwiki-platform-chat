@@ -39,48 +39,8 @@
     <xwiki.clirr.skip>true</xwiki.clirr.skip>
   </properties>
 
-  <dependencies>
-    <dependency>
-      <groupId>org.xwiki.enterprise</groupId>
-      <artifactId>xwiki-enterprise-ui-all</artifactId>
-      <version>${project.version}</version>
-      <type>xar</type>
-    </dependency>
-  </dependencies>
-
   <build>
     <plugins>
-      <plugin>
-        <groupId>org.xwiki.commons</groupId>
-        <artifactId>xwiki-commons-tool-xar-plugin</artifactId>
-        <executions>
-          <!-- Unpack XE xar so that we can package the XWiki chat skin. -->
-          <execution>
-            <id>unxar-xwiki-enterprise-ui-all</id>
-            <phase>generate-resources</phase>
-            <goals>
-              <goal>unxar</goal>
-            </goals>
-            <configuration>
-              <groupId>org.xwiki.enterprise</groupId>
-              <artifactId>xwiki-enterprise-ui-all</artifactId>
-              <outputDirectory>${project.build.outputDirectory}</outputDirectory>
-            </configuration>
-          </execution>
-          <!-- Package everything as a XAR -->
-          <execution>
-            <id>package-xar</id>
-            <phase>package</phase>
-            <goals>
-              <goal>xar</goal>
-            </goals>
-            <configuration>
-              <includeDependencies>true</includeDependencies>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>xml-maven-plugin</artifactId>
