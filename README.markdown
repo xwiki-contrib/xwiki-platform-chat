@@ -12,11 +12,18 @@ Installation
 
 * Copy the `xwiki-chat-platform-server/target/xwiki-chat-platform-server.jar` in the `webapps/xwiki/WEB-INF/lib` of your XWiki 3.5 Jetty installation.
 
-* Add the following lines to the `webapps/xwiki/WEB-INF/web.xml`:
+* Add the following blocks to the `webapps/xwiki/WEB-INF/web.xml` in the appropriate places:
 
 	`<listener>`<br/>
 	`	<listener-class>org.xwiki.chat.server.XMPPServerContextListener</listener-class>`<br/>
 	`</listener>`<br/>
+	`<filter-mapping>`<br/>
+	`	<filter-name>XWikiContextInitializationFilter</filter-name>`<br/>
+	`	<servlet-name>BoshServlet</servlet-name>`<br/>
+	`	<dispatcher>REQUEST</dispatcher>`<br/>
+	`	<dispatcher>INCLUDE</dispatcher>`<br/>
+	`	<dispatcher>FORWARD</dispatcher>`<br/>
+	`</filter-mapping>`<br/>
 	`<servlet>`<br/>
 	`	<servlet-name>BoshServlet</servlet-name>`<br/>
 	`	<servlet-class>org.xwiki.chat.server.XMPPServerBoshServlet</servlet-class>`<br/>
