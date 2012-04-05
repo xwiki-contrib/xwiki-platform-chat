@@ -89,6 +89,12 @@ public class XWikiUserAuthorization implements UserAuthorization
         String xwikiUserName = username;
         if (username.contains(splitCharacter)) {
             xwikiUserName = username.split(splitCharacter)[0];
+
+            /*
+             * This is a workaround for specifying user names that contain upper case characters that are sent all lower
+             * case by some clients(e.g., by Pidgin)
+             */
+            xwikiUserName = applyUpperCaseOperators(xwikiUserName, '^');
         }
 
         if (cookieAuthenticationPassword.equals(passwordCleartext)) {
@@ -191,6 +197,38 @@ public class XWikiUserAuthorization implements UserAuthorization
 
         Execution execution = Utils.getComponent(Execution.class);
         execution.removeContext();
+    }
+
+    /**
+     * Transform a string by applying "upper case operators" to characters. The source string can contain
+     * "uppercase operators" that will make the next character upper case in the resulting string. For example, if the
+     * upper case operator is defined by the character '^' then the string "^hell^o" will be transformed in "HellO".
+     * 
+     * @param source The string to be transformed.
+     * @param upperCaseOperator The character that identifies the upper case operator.
+     * @return The transformed string.
+     */
+    private String applyUpperCaseOperators(String source, char upperCaseOperator)
+    {
+        StringBuffer result = new StringBuffer();
+
+        boolean convertToUpperCase = false;
+        for (int i = 0; i < source.length(); i++) {
+            char currentCharacter = source.charAt(i);
+            if (currentCharacter == upperCaseOperator) {
+                convertToUpperCase = true;
+            } else {
+                if (convertToUpperCase) {
+                    result.append(Character.toUpperCase(currentCharacter));
+                } else {
+                    result.append(currentCharacter);
+                }
+
+                convertToUpperCase = false;
+            }
+        }
+
+        return result.toString();
     }
 
 }
