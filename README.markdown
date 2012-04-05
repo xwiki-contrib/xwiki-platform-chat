@@ -39,4 +39,9 @@ Installation
 
 Enjoy.
 
+Limitations
+-----------
 
+* Currently the web application works only with Jetty
+
+* The UI works fine in Chrome (and possibly other WebKit based browsers)
