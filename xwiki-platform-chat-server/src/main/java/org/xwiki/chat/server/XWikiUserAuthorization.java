@@ -52,12 +52,20 @@ public class XWikiUserAuthorization implements UserAuthorization
     private static Logger logger = LoggerFactory.getLogger(XWikiUserAuthorization.class);
 
     /**
+     * The password to be used in order to identify users that have been already authenticated using cookies.
+     */
+    private String cookieAuthenticationPassword;
+
+    /**
      * Constructor.
      * 
-     * @param componentManager The component manager to be used for initializing XWiki contexts.
+     * @param cookieAuthenticationPassword the password to be used in order to identify users that have been already
+     *            authenticated using cookies.
+     * @param componentManager the component manager to be used for initializing XWiki contexts.
      */
-    public XWikiUserAuthorization(ComponentManager componentManager)
+    public XWikiUserAuthorization(String cookieAuthenticationPassword, ComponentManager componentManager)
     {
+        this.cookieAuthenticationPassword = cookieAuthenticationPassword;
         com.xpn.xwiki.web.Utils.setComponentManager(componentManager);
     }
 
@@ -66,8 +74,7 @@ public class XWikiUserAuthorization implements UserAuthorization
      */
     public boolean verifyCredentials(Entity jid, String passwordCleartext, Object credentials)
     {
-        logger.info("User with JID {} is logging in ({})", jid.toString(), credentials);
-        return true;
+        return verifyCredentials(jid.getBareJID().toString(), passwordCleartext, credentials);
     }
 
     /**
@@ -82,6 +89,11 @@ public class XWikiUserAuthorization implements UserAuthorization
         String xwikiUserName = username;
         if (username.contains(splitCharacter)) {
             xwikiUserName = username.split(splitCharacter)[0];
+        }
+
+        if (cookieAuthenticationPassword.equals(passwordCleartext)) {
+            logger.info("User {} logged in with XWiki cookie authentication", username);
+            return true;
         }
 
         XWikiContext xwikiContext = null;

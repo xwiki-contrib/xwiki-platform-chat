@@ -134,6 +134,11 @@ var XWikiChat = (function() {
 			log("Connected.");
 
 			/**
+			 * Use the username coming from the connection.
+			 */
+			userName = Strophe.getNodeFromJid(connection.jid);
+
+			/**
 			 * Register the onMessage callback for linking message reception to the UI
 			 */
 			connection.addHandler(onMessage, null, "message", null, null, null);
@@ -163,10 +168,9 @@ var XWikiChat = (function() {
 		 * Initialize Strophe and connect to the XMPP server.
 		 */
 		connect : function() {
-			/* TODO: This is a hack. Find a way to retrieve the user name of the actual logged-in user. */
-			userName = $("tmUser").children[0].children[1].children[0].innerHTML.replace(" ", "_");
 			connection = new Strophe.Connection(BOSH_ENDPOINT);
-			connection.connect(userName + "@xwiki", "********", onConnect);
+			/* Use a dummy username and password because the connection will be authenticated via cookies. */
+			connection.connect("client@xwiki", "nopassword", onConnect);
 		},
 
 		/**

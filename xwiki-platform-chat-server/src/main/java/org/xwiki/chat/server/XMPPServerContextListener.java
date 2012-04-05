@@ -19,6 +19,8 @@
  */
 package org.xwiki.chat.server;
 
+import java.util.UUID;
+
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
@@ -59,12 +61,16 @@ public class XMPPServerContextListener implements ServletContextListener
     public void contextInitialized(ServletContextEvent sce)
     {
         try {
+            String cookieAuthenticationPassword = UUID.randomUUID().toString();
+            sce.getServletContext().setAttribute(Constants.XMPP_COOKIE_AUTHENTICATION_PASSWORD_ATTRIBUTE,
+                cookieAuthenticationPassword);
+
             ComponentManager componentManager =
                 (ComponentManager) sce.getServletContext().getAttribute(ComponentManager.class.getName());
 
             StorageProviderRegistry providerRegistry = new OpenStorageProviderRegistry();
             providerRegistry.add(new MemoryRosterManager());
-            providerRegistry.add(new XWikiUserAuthorization(componentManager));
+            providerRegistry.add(new XWikiUserAuthorization(cookieAuthenticationPassword, componentManager));
 
             server = new XMPPServer(SERVER_DOMAIN);
             /* Also open a TCP endpoint on port 5222 so that desktop clients can connect as well. */

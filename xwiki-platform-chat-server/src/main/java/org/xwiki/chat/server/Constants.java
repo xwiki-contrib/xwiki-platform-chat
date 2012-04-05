@@ -30,4 +30,9 @@ public interface Constants
      * The servlet context attribute name to be used for storing the XMPP server.
      */
     String XMPP_SERVER_ATTRIBUTE = "xmpp_server";
+
+    /**
+     * The servlet context attribute name to be used for storing the global cookie authentication password.
+     */
+    String XMPP_COOKIE_AUTHENTICATION_PASSWORD_ATTRIBUTE = "xmpp_cookie_authentication_password";
 }
