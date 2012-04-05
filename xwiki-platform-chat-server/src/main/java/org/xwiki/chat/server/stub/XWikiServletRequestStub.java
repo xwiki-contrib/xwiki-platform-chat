@@ -17,41 +17,34 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.xwiki.chat.server;
+package org.xwiki.chat.server.stub;
 
-import org.apache.vysper.xmpp.addressing.Entity;
-import org.apache.vysper.xmpp.authorization.UserAuthorization;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import javax.servlet.http.HttpServletRequest;
 
 /**
- * This class authorizes everyone to connect to the server.
+ * This is a stub used for simulating servlet requests in order to be able to create an XWiki context. It contains dummy
+ * values to be returned in order to make XWiki context initialization logic work.
  * 
  * @version $Id$
  */
-public class NullUserAuthorization implements UserAuthorization
+public class XWikiServletRequestStub extends com.xpn.xwiki.web.XWikiServletRequestStub
 {
-    /**
-     * Logger.
-     */
-    private static Logger logger = LoggerFactory.getLogger(NullUserAuthorization.class);
-
-    /**
-     * {@inheritDoc}
-     */
-    public boolean verifyCredentials(Entity jid, String passwordCleartext, Object credentials)
+    @Override
+    public String getContextPath()
     {
-        logger.info("User with JID {} is logging in ({})", jid.toString(), credentials);
-        return true;
+        return "/dummy-context-path";
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public boolean verifyCredentials(String username, String passwordCleartext, Object credentials)
+    @Override
+    public HttpServletRequest getHttpServletRequest()
     {
-        logger.info("User {} is logging in ({})", username, credentials);
-        return true;
+        return this;
+    }
+
+    @Override
+    public StringBuffer getRequestURL()
+    {
+        return new StringBuffer("http://dummy-host/");
     }
 
 }

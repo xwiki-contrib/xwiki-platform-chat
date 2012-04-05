@@ -33,6 +33,7 @@ import org.apache.vysper.xmpp.modules.extension.xep0119_xmppping.XmppPingModule;
 import org.apache.vysper.xmpp.modules.extension.xep0202_entity_time.EntityTimeModule;
 import org.apache.vysper.xmpp.modules.roster.persistence.MemoryRosterManager;
 import org.apache.vysper.xmpp.server.XMPPServer;
+import org.xwiki.component.manager.ComponentManager;
 
 /**
  * This context listener is used to start a Vysper server when the web application is deployed. The server is made
@@ -58,9 +59,12 @@ public class XMPPServerContextListener implements ServletContextListener
     public void contextInitialized(ServletContextEvent sce)
     {
         try {
+            ComponentManager componentManager =
+                (ComponentManager) sce.getServletContext().getAttribute(ComponentManager.class.getName());
+
             StorageProviderRegistry providerRegistry = new OpenStorageProviderRegistry();
             providerRegistry.add(new MemoryRosterManager());
-            providerRegistry.add(new NullUserAuthorization());
+            providerRegistry.add(new XWikiUserAuthorization(componentManager));
 
             server = new XMPPServer(SERVER_DOMAIN);
             /* Also open a TCP endpoint on port 5222 so that desktop clients can connect as well. */
