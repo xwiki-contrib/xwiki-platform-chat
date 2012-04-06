@@ -42,6 +42,7 @@
   <modules>
     <module>xwiki-platform-chat-server</module>
     <module>xwiki-platform-chat-ui</module>
+    <module>xwiki-platform-chat-ui-all</module>
   </modules>
 
   <build>
