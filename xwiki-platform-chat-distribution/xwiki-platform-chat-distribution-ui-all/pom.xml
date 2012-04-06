@@ -60,6 +60,19 @@
         <groupId>org.xwiki.commons</groupId>
         <artifactId>xwiki-commons-tool-xar-plugin</artifactId>
         <executions>
+          <!-- Unpack XE xar so that we can transform XWiki.XWikiPreferences -->
+          <execution>
+            <id>unxar-xwiki-enterprise-ui-all</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>unxar</goal>
+            </goals>
+            <configuration>
+              <groupId>org.xwiki.enterprise</groupId>
+              <artifactId>xwiki-enterprise-ui-all</artifactId>
+              <outputDirectory>${project.build.outputDirectory}</outputDirectory>
+            </configuration>
+          </execution>
           <!-- Package everything as a XAR -->
           <execution>
             <id>package-xar</id>
@@ -73,7 +86,40 @@
           </execution>
         </executions>
       </plugin>
+      <!-- Set the XWiki.XWikiChatSkin as the default skin. -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>xml-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>build-xwiki-chat-skin</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>transform</goal>
+            </goals>
+            <configuration>
+              <transformationSets>
+                <transformationSet>
+                  <dir>${project.build.outputDirectory}</dir>
+                  <outputDir>${project.build.outputDirectory}</outputDir>
+                  <includes>
+                    <include>XWiki/XWikiPreferences.xml</include>
+                  </includes>
+                  <stylesheet>src/main/build/transformations/register-xwiki-chat-skin.xsl</stylesheet>
+                </transformationSet>
+              </transformationSets>
+            </configuration>
+          </execution>
+        </executions>
+        <!-- Include Saxon for XSLT 2.0 processor. -->
+        <dependencies>
+          <dependency>
+            <groupId>net.sf.saxon</groupId>
+            <artifactId>saxon</artifactId>
+            <version>8.7</version>
+          </dependency>
+        </dependencies>
+      </plugin>
     </plugins>
   </build>
-
 </project>
