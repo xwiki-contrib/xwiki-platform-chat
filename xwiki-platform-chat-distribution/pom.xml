@@ -27,32 +27,21 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.xwiki.platform</groupId>
-    <artifactId>xwiki-platform-core</artifactId>
+    <artifactId>xwiki-platform-chat</artifactId>
     <version>3.5</version>
   </parent>
-  <artifactId>xwiki-platform-chat</artifactId>
+  <artifactId>xwiki-platform-chat-distribution</artifactId>
   <packaging>pom</packaging>
 
-  <name>XWiki Platform - Chat - Parent POM</name>
+  <name>XWiki Platform - Chat - Distribution Parent POM</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
   <modules>
-    <module>xwiki-platform-chat-server</module>
-    <module>xwiki-platform-chat-ui</module>
-    <module>xwiki-platform-chat-ui-all</module>
-    <module>xwiki-platform-chat-distribution</module>
+    <module>xwiki-platform-chat-distribution-war</module>
+    <module>xwiki-platform-chat-distribution-database-hsqldb</module>
+    <module>xwiki-platform-chat-distribution-jetty-hsqldb</module>
   </modules>
-
-  <build>
-    <plugins>
-      <plugin>
-        <!-- Apply the Checkstyle configurations defined in the top level pom.xml file -->
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-      </plugin>
-    </plugins>
-  </build>
 </project>

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ *
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.xwiki.enterprise</groupId>
+    <artifactId>xwiki-enterprise-database</artifactId>
+    <version>3.5</version>
+  </parent>
+  <groupId>org.xwiki.platform</groupId>
+  <artifactId>xwiki-platform-chat-distribution-database-hsqldb</artifactId>
+  <packaging>pom</packaging>
+
+  <name>XWiki Platform - Chat - Distribution - Database - HSQLDB</name>
+
+  <properties>
+    <xwiki.db.connection.url>jdbc:hsqldb:file:${project.build.directory}/database/xwiki_db;shutdown=true</xwiki.db.connection.url>
+  </properties>
+  
+  <dependencies>
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-chat-ui-all</artifactId>
+      <version>3.5</version>
+      <type>xar</type>
+    </dependency>
+    <dependency>
+      <groupId>org.hsqldb</groupId>
+      <artifactId>hsqldb</artifactId>
+      <version>2.2.8</version>
+    </dependency>
+  </dependencies>
+  <build>
+    <plugins>
+      <!-- Step 1: Copy and filter the Hibernate config file which will be used by the packager
+           plugin -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-remote-resources-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>xwiki-platform-tool-configuration-resources</id>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- Step 2: Expand the XAR file -->
+      <plugin>
+        <groupId>org.xwiki.commons</groupId>
+        <artifactId>xwiki-commons-tool-xar-plugin</artifactId>
+        <version>${commons.version}</version>
+        <configuration>
+          <groupId>org.xwiki.platform</groupId>
+          <artifactId>xwiki-platform-chat-ui-all</artifactId>
+          <outputDirectory>${project.build.directory}/xar</outputDirectory>
+        </configuration>
+        <executions>
+          <execution>
+              <!-- Right phase is prepare-package, but it is only in maven-2.1
+              <phase>prepare-package</phase>-->
+            <phase>package</phase>
+            <goals>
+              <goal>unxar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+        <!-- Step 3: Import the XAR content into the Database -->
+      <plugin>
+        <groupId>org.xwiki.platform</groupId>
+        <artifactId>xwiki-platform-tool-packager-plugin</artifactId>
+        <version>${commons.version}</version>
+        <configuration>
+          <sourceDirectory>${project.build.directory}/xar</sourceDirectory>
+          <hibernateConfig>
+            ${project.build.directory}/maven-shared-archive-resources/hibernate.cfg.xml
+          </hibernateConfig>
+        </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>${xwiki.db.jdbc.groupId}</groupId>
+            <artifactId>${xwiki.db.jdbc.artifactId}</artifactId>
+            <version>${xwiki.db.jdbc.version}</version>
+          </dependency>
+            <!-- Since we're building XWiki Enterprise, we need to add the ActivityStream plugin as a dependency,
+                 which has its own mapping and migrators. -->
+          <dependency>
+            <groupId>org.xwiki.platform</groupId>
+            <artifactId>xwiki-platform-activitystream</artifactId>
+            <version>${platform.version}</version>
+          </dependency>
+            <!-- We need the Servlet API dep since it's used by the Packager and since it has
+                 a provided scope in XWiki core it's not inherited as part of transitive deps -->
+          <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.4</version>
+          </dependency>
+        </dependencies>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>import</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+        <!-- Step 4: Zip the generated database (for embedded databases only) -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+          <descriptors>
+            <descriptor>${basedir}/src/assemble/database.xml</descriptor>
+          </descriptors>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>
