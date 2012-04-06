@@ -1,4 +1,6 @@
 Introduction
 ============
 
-This module builds a complete XWiki Enterprise XAR that contains the skin for using the XWiki chat.
+This module builds the Web Application WAR for deploying the XWiki Chat prototype in an application server.
+
+Currently only Jetty 7.x is supported.
