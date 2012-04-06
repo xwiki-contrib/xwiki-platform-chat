@@ -43,7 +43,7 @@
   <dependencies>
     <dependency>
       <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-platform-chat-ui-all</artifactId>
+      <artifactId>xwiki-platform-chat-distribution-ui-all</artifactId>
       <version>3.5</version>
       <type>xar</type>
     </dependency>
@@ -73,7 +73,7 @@
         <version>${commons.version}</version>
         <configuration>
           <groupId>org.xwiki.platform</groupId>
-          <artifactId>xwiki-platform-chat-ui-all</artifactId>
+          <artifactId>xwiki-platform-chat-distribution-ui-all</artifactId>
           <outputDirectory>${project.build.directory}/xar</outputDirectory>
         </configuration>
         <executions>

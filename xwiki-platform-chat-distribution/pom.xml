@@ -40,6 +40,7 @@
   </properties>
 
   <modules>
+    <module>xwiki-platform-chat-distribution-ui-all</module>
     <module>xwiki-platform-chat-distribution-war</module>
     <module>xwiki-platform-chat-distribution-database-hsqldb</module>
     <module>xwiki-platform-chat-distribution-jetty-hsqldb</module>
