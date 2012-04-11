@@ -30,13 +30,13 @@
     <artifactId>xwiki-enterprise-jetty</artifactId>
     <version>3.5</version>
   </parent>
-  <groupId>org.xwiki.platform</groupId>
+  <groupId>org.xwiki.contrib</groupId>
   <artifactId>xwiki-platform-chat-distribution-jetty-hsqldb</artifactId>
   <name>XWiki Platform - Chat - Distribution - Jetty- HSQLDB</name>
   <packaging>pom</packaging>
   <dependencies>
     <dependency>
-      <groupId>org.xwiki.platform</groupId>
+      <groupId>org.xwiki.contrib</groupId>
       <artifactId>xwiki-platform-chat-distribution-war</artifactId>
       <version>${project.version}</version>
       <type>war</type>
@@ -66,7 +66,7 @@
       <optional>true</optional>
     </dependency>
     <dependency>
-      <groupId>org.xwiki.platform</groupId>
+      <groupId>org.xwiki.contrib</groupId>
       <artifactId>xwiki-platform-chat-distribution-database-hsqldb</artifactId>
       <version>${project.version}</version>
       <type>zip</type>
