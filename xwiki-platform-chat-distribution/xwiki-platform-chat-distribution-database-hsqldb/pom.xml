@@ -28,7 +28,7 @@
   <parent>
     <groupId>org.xwiki.enterprise</groupId>
     <artifactId>xwiki-enterprise-database</artifactId>
-    <version>3.5</version>
+    <version>4.0</version>
   </parent>
   <groupId>org.xwiki.contrib</groupId>
   <artifactId>xwiki-platform-chat-distribution-database-hsqldb</artifactId>
