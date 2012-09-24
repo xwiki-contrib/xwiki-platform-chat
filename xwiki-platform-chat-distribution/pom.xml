@@ -28,7 +28,7 @@
   <parent>
     <groupId>org.xwiki.contrib</groupId>
     <artifactId>xwiki-platform-chat</artifactId>
-    <version>4.0</version>
+    <version>4.2-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-platform-chat-distribution</artifactId>
   <packaging>pom</packaging>

@@ -28,7 +28,7 @@
   <parent>
     <groupId>org.xwiki.enterprise</groupId>
     <artifactId>xwiki-enterprise-database</artifactId>
-    <version>4.0</version>
+    <version>4.2-SNAPSHOT</version>
   </parent>
   <groupId>org.xwiki.contrib</groupId>
   <artifactId>xwiki-platform-chat-distribution-database-hsqldb</artifactId>
@@ -44,7 +44,7 @@
     <dependency>
       <groupId>org.xwiki.contrib</groupId>
       <artifactId>xwiki-platform-chat-distribution-ui-all</artifactId>
-      <version>3.5</version>
+      <version>4.2-SNAPSHOT</version>
       <type>xar</type>
     </dependency>
     <dependency>

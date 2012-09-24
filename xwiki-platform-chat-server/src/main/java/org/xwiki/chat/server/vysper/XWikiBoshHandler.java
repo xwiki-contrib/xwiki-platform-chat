@@ -86,7 +86,7 @@ public class XWikiBoshHandler extends BoshHandler
     public XWikiBoshHandler(String cookieAuthenticationPassword, ComponentManager componentManager) throws Exception
     {
         this.cookieAuthenticationPassword = cookieAuthenticationPassword;
-        execution = componentManager.lookup(Execution.class);
+        execution = componentManager.getInstance(Execution.class);
     }
 
     /**

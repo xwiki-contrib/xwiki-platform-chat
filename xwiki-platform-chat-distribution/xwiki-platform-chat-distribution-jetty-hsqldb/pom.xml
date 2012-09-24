@@ -28,7 +28,7 @@
   <parent>
     <groupId>org.xwiki.enterprise</groupId>
     <artifactId>xwiki-enterprise-jetty</artifactId>
-    <version>4.0</version>
+    <version>4.2-SNAPSHOT</version>
   </parent>
   <groupId>org.xwiki.contrib</groupId>
   <artifactId>xwiki-platform-chat-distribution-jetty-hsqldb</artifactId>
