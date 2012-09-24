@@ -54,7 +54,6 @@
       <artifactId>xwiki-platform-tool-jetty-resources</artifactId>
       <version>${platform.version}</version>
       <type>zip</type>
-      <optional>true</optional>
     </dependency>
     <!-- Add the database JAR so that it's included in the expanded WAR since it's not included
          by default in the Platform WAR. -->
