@@ -28,7 +28,7 @@
   <parent>
     <groupId>org.xwiki.enterprise</groupId>
     <artifactId>xwiki-enterprise-jetty</artifactId>
-    <version>4.2-SNAPSHOT</version>
+    <version>5.1</version>
   </parent>
   <groupId>org.xwiki.contrib</groupId>
   <artifactId>xwiki-platform-chat-distribution-jetty-hsqldb</artifactId>
@@ -66,7 +66,7 @@
     </dependency>
     <dependency>
       <groupId>org.xwiki.contrib</groupId>
-      <artifactId>xwiki-platform-chat-distribution-database-hsqldb</artifactId>
+      <artifactId>xwiki-platform-chat-distribution-data-hsqldb</artifactId>
       <version>${project.version}</version>
       <type>zip</type>
       <optional>true</optional>

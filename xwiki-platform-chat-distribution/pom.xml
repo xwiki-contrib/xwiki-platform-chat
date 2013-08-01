@@ -28,7 +28,7 @@
   <parent>
     <groupId>org.xwiki.contrib</groupId>
     <artifactId>xwiki-platform-chat</artifactId>
-    <version>4.2-SNAPSHOT</version>
+    <version>5.1</version>
   </parent>
   <artifactId>xwiki-platform-chat-distribution</artifactId>
   <packaging>pom</packaging>
@@ -42,7 +42,7 @@
   <modules>
     <module>xwiki-platform-chat-distribution-ui-all</module>
     <module>xwiki-platform-chat-distribution-war</module>
-    <module>xwiki-platform-chat-distribution-database-hsqldb</module>
+    <module>xwiki-platform-chat-distribution-data-hsqldb</module>
     <module>xwiki-platform-chat-distribution-jetty-hsqldb</module>
   </modules>
 </project>

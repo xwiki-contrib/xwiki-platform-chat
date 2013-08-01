@@ -29,10 +29,13 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class XWikiServletRequestStub extends com.xpn.xwiki.web.XWikiServletRequestStub
 {
-    @Override
-    public String getContextPath()
+    /**
+     * Constructor.
+     */
+    public XWikiServletRequestStub()
     {
-        return "/dummy-context-path";
+        super.setHost("localhost");
+        super.setScheme("http");
     }
 
     @Override
@@ -44,7 +47,24 @@ public class XWikiServletRequestStub extends com.xpn.xwiki.web.XWikiServletReque
     @Override
     public StringBuffer getRequestURL()
     {
-        return new StringBuffer("http://dummy-host/");
+        return new StringBuffer("http://localhost/");
     }
 
+    @Override
+    public String getRequestURI()
+    {
+        return "/";
+    }
+
+    @Override
+    public String getContextPath()
+    {
+        return "";
+    }
+
+    @Override
+    public String getServletPath()
+    {
+        return "";
+    }
 }

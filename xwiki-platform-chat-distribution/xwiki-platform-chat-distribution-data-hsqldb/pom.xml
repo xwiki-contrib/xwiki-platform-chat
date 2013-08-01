@@ -27,45 +27,36 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.xwiki.enterprise</groupId>
-    <artifactId>xwiki-enterprise-database</artifactId>
-    <version>4.2-SNAPSHOT</version>
+    <artifactId>xwiki-enterprise-data</artifactId>
+    <version>5.1</version>
   </parent>
   <groupId>org.xwiki.contrib</groupId>
-  <artifactId>xwiki-platform-chat-distribution-database-hsqldb</artifactId>
+  <artifactId>xwiki-platform-chat-distribution-data-hsqldb</artifactId>
   <packaging>pom</packaging>
 
-  <name>XWiki Platform - Chat - Distribution - Database - HSQLDB</name>
+  <name>XWiki Platform - Chat - Distribution - Data - HSQLDB</name>
 
   <properties>
-    <xwiki.db.connection.url>jdbc:hsqldb:file:${project.build.directory}/database/xwiki_db;shutdown=true</xwiki.db.connection.url>
+    <xwiki.db.connection.url>jdbc:hsqldb:file:${project.build.directory}/data/database/xwiki_db;shutdown=true</xwiki.db.connection.url>
   </properties>
   
   <dependencies>
     <dependency>
       <groupId>org.xwiki.contrib</groupId>
       <artifactId>xwiki-platform-chat-distribution-ui-all</artifactId>
-      <version>4.2-SNAPSHOT</version>
+      <version>${project.version}</version>
       <type>xar</type>
     </dependency>
     <dependency>
       <groupId>org.hsqldb</groupId>
       <artifactId>hsqldb</artifactId>
-      <version>2.2.8</version>
+      <version>${hsqldb.version}</version>
     </dependency>
   </dependencies>
   <build>
     <plugins>
       <!-- Step 1: Copy and filter the Hibernate config file which will be used by the packager
            plugin -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-remote-resources-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>xwiki-platform-tool-configuration-resources</id>
-          </execution>
-        </executions>
-      </plugin>
       <!-- Step 2: Expand the XAR file -->
       <plugin>
         <groupId>org.xwiki.commons</groupId>
@@ -78,9 +69,7 @@
         </configuration>
         <executions>
           <execution>
-              <!-- Right phase is prepare-package, but it is only in maven-2.1
-              <phase>prepare-package</phase>-->
-            <phase>package</phase>
+            <phase>prepare-package</phase>
             <goals>
               <goal>unxar</goal>
             </goals>
@@ -106,45 +95,79 @@
           </dependency>
             <!-- Since we're building XWiki Enterprise, we need to add the ActivityStream plugin as a dependency,
                  which has its own mapping and migrators. -->
-          <dependency>
-            <groupId>org.xwiki.platform</groupId>
-            <artifactId>xwiki-platform-activitystream</artifactId>
-            <version>${platform.version}</version>
-          </dependency>
+            <dependency>
+              <groupId>org.xwiki.platform</groupId>
+              <artifactId>xwiki-platform-activitystream-api</artifactId>
+              <version>${platform.version}</version>
+            </dependency>
+            <!-- Annotation has it own migrator that we need to execute to set the rigth version to the DB. -->
+            <dependency>
+              <groupId>org.xwiki.platform</groupId>
+              <artifactId>xwiki-platform-annotation-io</artifactId>
+              <version>${platform.version}</version>
+            </dependency>
+            <!-- WikiMacro classes are automatically generated. -->
+            <dependency>
+              <groupId>org.xwiki.platform</groupId>
+              <artifactId>xwiki-platform-rendering-wikimacro-store</artifactId>
+              <version>${platform.version}</version>
+            </dependency>
             <!-- We need the Servlet API dep since it's used by the Packager and since it has
                  a provided scope in XWiki core it's not inherited as part of transitive deps -->
-          <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <version>2.4</version>
-          </dependency>
-        </dependencies>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>import</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-        <!-- Step 4: Zip the generated database (for embedded databases only) -->
+            <dependency>
+              <groupId>javax.servlet</groupId>
+              <artifactId>servlet-api</artifactId>
+              <version>2.4</version>
+            </dependency>
+          </dependencies>
+          <executions>
+            <execution>
+              <phase>prepare-package</phase>
+              <goals>
+                <goal>import</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <!-- Step 3: Zip the generated data -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-assembly-plugin</artifactId>
+          <configuration>
+            <descriptors>
+              <descriptor>${basedir}/src/assemble/data.xml</descriptor>
+            </descriptors>
+          </configuration>
+          <executions>
+            <execution>
+              <phase>package</phase>
+              <goals>
+                <goal>single</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+
+      <!-- Useful for debugging. Starts a GUI admin application to browse the HSQL DB -->
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-assembly-plugin</artifactId>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
         <configuration>
-          <descriptors>
-            <descriptor>${basedir}/src/assemble/database.xml</descriptor>
-          </descriptors>
+          <executable>java</executable>
+          <arguments>
+            <argument>-classpath</argument>
+            <!-- automatically creates the classpath using all project dependencies,
+                 also adding the project build directory -->
+            <classpath />
+            <argument>org.hsqldb.util.DatabaseManagerSwing</argument>
+            <argument>-driver</argument>
+            <argument>org.hsqldb.jdbcDriver</argument>
+            <argument>-url</argument>
+            <argument>jdbc:hsqldb:file:${project.build.directory}/data/database/xwiki_db</argument>
+            <argument>-user</argument>
+            <argument>sa</argument>
+          </arguments>
         </configuration>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>single</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
     </plugins>
   </build>

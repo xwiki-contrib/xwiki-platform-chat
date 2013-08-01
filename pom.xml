@@ -28,7 +28,7 @@
   <parent>
     <groupId>org.xwiki.platform</groupId>
     <artifactId>xwiki-platform-core</artifactId>
-    <version>4.2-SNAPSHOT</version>
+    <version>5.1</version>
   </parent>
   <groupId>org.xwiki.contrib</groupId>
   <artifactId>xwiki-platform-chat</artifactId>
@@ -52,6 +52,11 @@
         <!-- Apply the Checkstyle configurations defined in the top level pom.xml file -->
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
+        <configuration>
+          <excludes>
+            **/XMPPServerContextListener.java
+          </excludes>
+        </configuration>
       </plugin>
     </plugins>
   </build>

@@ -30,7 +30,7 @@
     <!-- "xwiki" webapp. -->
     <dependencySet>
       <includes>
-        <include>org.xwiki.platform:xwiki-platform-chat-distribution-war</include>
+        <include>org.xwiki.contrib:xwiki-platform-chat-distribution-war</include>
       </includes>
       <outputDirectory>webapps/xwiki</outputDirectory>
       <unpack>true</unpack>
@@ -39,6 +39,8 @@
           <exclude>**/hibernate.cfg.xml</exclude>
         </excludes>
       </unpackOptions>
+      <!-- Needed to prevent warning since our project has a pom packaging and is not producing any artifact -->
+      <useProjectArtifact>false</useProjectArtifact>
     </dependencySet>
     <!-- ROOT webapp, redirecting to /xwiki/ when no application is specified. -->
     <dependencySet>
@@ -47,14 +49,50 @@
       </includes>
       <outputDirectory>webapps/root</outputDirectory>
       <unpack>true</unpack>
+      <!-- Needed to prevent warning since our project has a pom packaging and is not producing any artifact -->
+      <useProjectArtifact>false</useProjectArtifact>
     </dependencySet>
-    <!-- Unpack Jetty files -->
+    <!-- Unpack Jetty files
+         Note1: We need to apply filtering to resolve the "xwikiDataDir" property in start shell scripts.
+         Note2: Since the Assembly plugin doesn't allow us to specify which files should be filtered we need two
+                definitions, one with only start shell scripts and one without them.
+    -->
     <dependencySet>
       <includes>
         <include>org.xwiki.platform:xwiki-platform-tool-jetty-resources</include>
       </includes>
       <outputDirectory>/</outputDirectory>
       <unpack>true</unpack>
+      <!-- TODO: This shouldn't be needed but there's a bug see http://jira.codehaus.org/browse/MASSEMBLY-554 -->
+      <outputFileNameMapping>/</outputFileNameMapping>
+      <unpackOptions>
+        <filtered>true</filtered>
+        <includes>
+          <include>**/start_xwiki*.*</include>
+        </includes>
+      </unpackOptions>
+      <!-- Extracting some resources from the dependency somehow looses the file permissions, so we need to set them
+           again so that the start xwiki scripts are executable... -->
+      <fileMode>755</fileMode>
+      <!-- Needed to prevent warning since our project has a pom packaging and is not producing any artifact -->
+      <useProjectArtifact>false</useProjectArtifact>
+    </dependencySet>
+    <dependencySet>
+      <includes>
+        <include>org.xwiki.platform:xwiki-platform-tool-jetty-resources</include>
+      </includes>
+      <outputDirectory>/</outputDirectory>
+      <unpack>true</unpack>
+      <!-- TODO: This shouldn't be needed but there's a bug see http://jira.codehaus.org/browse/MASSEMBLY-554 -->
+      <outputFileNameMapping>/</outputFileNameMapping>
+      <unpackOptions>
+        <filtered>false</filtered>
+        <excludes>
+          <exclude>**/start_xwiki*.*</exclude>
+        </excludes>
+      </unpackOptions>
+      <!-- Needed to prevent warning since our project has a pom packaging and is not producing any artifact -->
+      <useProjectArtifact>false</useProjectArtifact>
     </dependencySet>
     <!-- Add JDBC driver for the database to use. -->
     <dependencySet>
@@ -63,14 +101,18 @@
       </includes>
       <outputDirectory>webapps/xwiki/WEB-INF/lib</outputDirectory>
       <unpack>false</unpack>
+      <!-- Needed to prevent warning since our project has a pom packaging and is not producing any artifact -->
+      <useProjectArtifact>false</useProjectArtifact>
     </dependencySet>
-    <!-- Unpack the HSQLDB database files to package it in the distribution -->
+    <!-- Unpack the data files to package it in the distribution -->
     <dependencySet>
       <includes>
-        <include>org.xwiki.platform:xwiki-platform-chat-distribution-database-hsqldb</include>
+        <include>org.xwiki.contrib:xwiki-platform-chat-distribution-data-${xwiki.db}</include>
       </includes>
-      <outputDirectory>/database</outputDirectory>
+      <outputDirectory>/${xwikiDataDir}/</outputDirectory>
       <unpack>true</unpack>
+      <!-- Needed to prevent warning since our project has a pom packaging and is not producing any artifact -->
+      <useProjectArtifact>false</useProjectArtifact>
     </dependencySet>
   </dependencySets>
   <!-- Add Hibernate configuration file -->
