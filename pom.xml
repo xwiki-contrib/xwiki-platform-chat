@@ -32,7 +32,7 @@
   <groupId>org.xwiki.contrib.chat</groupId>
   <artifactId>xwiki-platform-chat</artifactId>
   <packaging>pom</packaging>
-  <version>1.0</version>
+  <version>1.0-SNAPSHOT</version>
   <name>XWiki Chat Application - parent POM</name>
   <description>XWiki Chat Application, based on XMPP, supporting WebRTC</description>
   <developers>
@@ -76,7 +76,7 @@
     <connection>scm:git:git://github.com/xwiki-contrib/xwiki-platform-chat.git</connection>
     <developerConnection>scm:git:git@github.com:xwiki-contrib/xwiki-platform-chat.git</developerConnection>
     <url>https://github.com/xwiki-contrib/xwiki-platform-chat</url>
-    <tag>xwiki-platform-chat-1.0</tag>
+    <tag>HEAD</tag>
   </scm>
   <distributionManagement>
     <repository>
