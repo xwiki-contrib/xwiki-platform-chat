@@ -1,0 +1,4 @@
+This are patches applied to the Candy JS Library, to allow:
+
+- running candy-webrtc.js
+- display candy in absolute mode at the bottom left of a "normal" window, instead of fixed mode its own window

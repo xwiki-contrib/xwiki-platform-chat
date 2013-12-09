@@ -1,0 +1,155 @@
+--- /Users/ludovic/dev/technologies/webrtc/candy/candy-chat-candy-41a6c63/res/default.css	2013-05-14 11:44:16.000000000 +0200
++++ candy.css	2013-12-04 22:06:47.000000000 +0100
+@@ -11,28 +11,45 @@
+ 	font-family: Arial, Helvetica, sans-serif;
+ }
+ 
++
+ #candy {
+-	position: absolute;
+-	top: 0;
+-	bottom: 0;
+-	right: 0;
+-	left: 0;
+-	background-color: #ccc;
+-	color: #333;
+-	overflow: hidden;
++    background-color: #CCCCCC;
++    border: 2px solid #CCCCCC;
++    border-radius: 0 20px 0 0;
++    bottom: 0;
++    color: #333333;
++    height: 400px;
++    left: 0;
++    overflow: hidden;
++    position: fixed;
++    right: 0;
++    width: 800px;
++    z-index: 1000;
++}
++
++div#candy:hover {
++  height: 400px;
+ }
+ 
+-a {
++div#candy:hover #chat-toolbar, div#candy:hover #chat-rooms {
++ /* display: block !important; */
++}
++
++#candy a {
+ 	color: #333;
+ 	text-decoration: none;
+ }
+ 
+-ul {
++#candy ul {
+ 	list-style: none;
+ 	padding: 0;
+ 	margin: 0;
+ }
+ 
++#chat-rooms {
++ /* display: none; */
++}
++
+ #chat-tabs {
+ 	list-style: none;
+ 	margin: 0 200px 0 0;
+@@ -109,7 +126,7 @@
+ }
+ 
+ #chat-toolbar {
+-	position: fixed;
++	position: absolute;
+ 	bottom: 0;
+ 	right: 0;
+ 	font-size: 11px;
+@@ -119,7 +136,7 @@
+ 	padding-top: 7px;
+ 	border-top: 1px solid #aaa;
+ 	background-color: #d9d9d9;
+-	display: none;
++/*	display: none !important; */
+ }
+ 
+ #chat-toolbar li {
+@@ -313,6 +330,7 @@
+ 	font-size: 10px;
+ 	text-align: right;
+ 	padding-top: 4px;
++        margin: 0px;
+ }
+ 
+ .message-pane dd {
+@@ -347,6 +365,7 @@
+ 	color: #888;
+ 	font-style: italic;
+ 	padding-left: 5px;
++        background-image: none;
+ }
+ 
+ .message-pane .emoticon {
+@@ -356,7 +375,7 @@
+ }
+ 
+ .message-form-wrapper {
+-	position: fixed;
++	position: absolute;
+ 	bottom: 0;
+ 	left: 0;
+ 	right: 0;
+@@ -368,11 +387,11 @@
+ }
+ 
+ .message-form {
+-	position: fixed;
++	position: absolute;
+ 	bottom: 0;
+ 	left: 0;
+ 	right: 0;
+-	margin-right: 320px;
++	margin-right: 300px;
+ 	padding: 0;
+ }
+ 
+@@ -390,10 +409,10 @@
+ 	cursor: pointer;
+ 	background-color: #ccc;
+ 	color: #666;
+-	position: fixed;
++	position: absolute;
+ 	bottom: 0;
+ 	right: 0;
+-	margin: 3px 203px 3px 3px;
++	margin: 3px -80px 3px 3px;
+ 	padding: 5px 7px;
+ 	width: auto;
+ 	font-size: 12px;
+@@ -411,7 +430,7 @@
+ 	color: white;
+ 	font-size: 11px;
+ 	padding: 5px 0;
+-	background: url(img/tooltip-arrows.gif) no-repeat left bottom;
++	background: url(img/tooltip-arrows.gif) no-repeat right top;
+ }
+ 
+ #tooltip div {
+@@ -426,7 +445,7 @@
+ 	display: none;
+ 	padding: 15px 10px;
+ 	margin: 8px -28px -8px -12px;
+-	background: url(img/context-arrows.gif) no-repeat left bottom;
++	background: url(img/context-arrows.gif) no-repeat right top; 
+ }
+ 
+ #context-menu ul {
+@@ -501,7 +520,7 @@
+ 	padding: 20px 5px;
+ 	color: white;
+ 	font-size: 16px;
+-	position: fixed;
++	position: absolute;
+ 	left: 50%;
+ 	top: 50%;
+ 	margin-left: -155px;

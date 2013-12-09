@@ -26,9 +26,9 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>org.xwiki.contrib</groupId>
+    <groupId>org.xwiki.contrib.chat</groupId>
     <artifactId>xwiki-platform-chat</artifactId>
-    <version>5.1</version>
+    <version>1.0-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-platform-chat-ui</artifactId>
   <packaging>xar</packaging>
@@ -41,80 +41,61 @@
 
   <build>
     <plugins>
+      <!-- Step 1: Download candy.zip -->
       <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>xml-maven-plugin</artifactId>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
         <executions>
-          <!-- Build the skin file by adding resources to the wiki document's XML. -->
           <execution>
-            <id>build-xwiki-chat-skin</id>
-            <phase>prepare-package</phase>
+            <!-- <phase>generate-sources</phase> -->
             <goals>
-              <goal>transform</goal>
+              <goal>copy</goal>
             </goals>
             <configuration>
-              <transformationSets>
-                <transformationSet>
-                  <dir>${project.build.outputDirectory}</dir>
-                  <outputDir>${project.build.outputDirectory}</outputDir>
-                  <includes>
-                    <include>XWiki/XWikiChatSkin.xml</include>
-                  </includes>
-                  <stylesheet>src/main/build/transformations/xwiki-chat-skin.xsl</stylesheet>
-                  <!-- These parameters are used to embed needed resources in the skin file. If you want to add more resources, make sure to add them also in the XSL file! -->
-                  <parameters>
-                    <!-- XWiki template overrides -->
-                    <parameter>
-                      <name>stylesheets.vm.path</name>
-                      <value>${basedir}/src/main/templates/stylesheets.vm</value>
-                    </parameter>
-                    <parameter>
-                      <name>javascript.vm.path</name>
-                      <value>${basedir}/src/main/templates/javascript.vm</value>
-                    </parameter>
-                    <parameter>
-                      <name>footer.vm.path</name>
-                      <value>${basedir}/src/main/templates/footer.vm</value>
-                    </parameter>
-                    <!-- Strophe javascript-->
-                    <parameter>
-                      <name>strophe.js.path</name>
-                      <value>${basedir}/src/main/js/strophe.js</value>
-                    </parameter>
-                    <parameter>
-                      <name>strophe.muc.js.path</name>
-                      <value>${basedir}/src/main/js/strophe.muc.js</value>
-                    </parameter>
-                    <!-- XWiki chat javascript -->
-                    <parameter>
-                      <name>xwiki-chat.js.path</name>
-                      <value>${basedir}/src/main/js/xwiki-chat.js</value>
-                    </parameter>
-                    <parameter>
-                      <name>xwiki-chat-ui.js.path</name>
-                      <value>${basedir}/src/main/js/xwiki-chat-ui.js</value>
-                    </parameter>
-                    <!-- XWiki chat CSS -->
-                    <parameter>
-                      <name>xwiki-chat.css.path</name>
-                      <value>${basedir}/src/main/css/xwiki-chat.css</value>
-                    </parameter>
-                  </parameters>
-                </transformationSet>
-              </transformationSets>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>${project.groupId}</groupId>
+                  <artifactId>xwiki-platform-chat-resources</artifactId>
+                  <version>${project.version}</version>
+                  <type>zip</type>
+                  <overWrite>true</overWrite>
+                  <outputDirectory>${project.build.directory}/candy/</outputDirectory>
+                  <destFileName>candy.zip</destFileName>
+                </artifactItem>
+              </artifactItems>
             </configuration>
           </execution>
         </executions>
-        <!-- Include Saxon for XSLT 2.0 processor. -->
-        <dependencies>
-          <dependency>
-            <groupId>net.sf.saxon</groupId>
-            <artifactId>saxon</artifactId>
-            <version>8.7</version>
-          </dependency>
-        </dependencies>
+      </plugin>
+
+      <!-- Step 2: Attach template features xar to WorkspaceManager install page -->
+      <plugin>
+        <groupId>org.xwiki.platform</groupId>
+        <artifactId>xwiki-platform-tool-xmldoc-update-plugin</artifactId>
+        <version>5.1</version>
+        <executions>
+          <execution>
+            <phase>process-resources</phase>
+            <id>attach-template-features-xar</id>
+            <goals>
+              <goal>attach</goal>
+            </goals>
+            <configuration>
+              <file>${project.build.directory}/candy/candy.zip</file>
+              <sourceDocument>${basedir}/src/main/resources/ChatCode/ChatSheet.xml</sourceDocument>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
-
+  <dependencies>
+     <dependency>
+        <groupId>org.xwiki.contrib.chat</groupId>
+        <artifactId>xwiki-platform-chat-server</artifactId>
+        <version>${project.version}</version>
+        <type>jar</type>
+        <scope>runtime</scope>
+     </dependency>
+  </dependencies>
 </project>

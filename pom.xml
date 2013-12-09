@@ -30,9 +30,10 @@
     <artifactId>xwiki-platform-core</artifactId>
     <version>5.1</version>
   </parent>
-  <groupId>org.xwiki.contrib</groupId>
+  <groupId>org.xwiki.contrib.chat</groupId>
   <artifactId>xwiki-platform-chat</artifactId>
   <packaging>pom</packaging>
+  <version>1.0-SNAPSHOT</version>
 
   <name>XWiki Platform - Chat - Parent POM</name>
 
@@ -42,8 +43,9 @@
 
   <modules>
     <module>xwiki-platform-chat-server</module>
+    <module>xwiki-platform-chat-resources</module>
     <module>xwiki-platform-chat-ui</module>
-    <module>xwiki-platform-chat-distribution</module>
+<!--    <module>xwiki-platform-chat-distribution</module> -->
   </modules>
 
   <build>

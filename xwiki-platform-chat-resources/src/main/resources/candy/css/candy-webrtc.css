@@ -1,0 +1,59 @@
+/**
+ * Candy Plugin for WebRTC Video Conferencing
+ *
+ */
+#context-menu .webrtc {
+	background-image: url('img/telephone.png');
+}
+
+#chat-tabs .webrtc {
+	background-image: url('img/telephone.png');
+	width: 16px;
+	height: 16px;
+	padding: 0;
+	margin-left: 5px;
+}
+
+#chat-tabs .webrtc-calling {
+	background-image: url('img/telephone_calling.png');
+}
+
+#chat-tabs .webrtc-calling:hover {
+	background-image: url('img/telephone_hangup.png') !important;
+}
+
+.message-pane.webrtc {
+	margin-top: 285px;
+}
+#webrtc-videos.active {
+	position: relative;
+	background-color: #000;
+	height: 280px;
+	padding: 2px;
+	margin-right: 200px;
+	text-align: center;
+}
+#webrtc-videos.active video {
+	-webkit-transform: rotateY(180deg);
+}
+#localVideo {
+	position: absolute;
+	top: 50px;
+	margin: 0 auto;
+	width: 300px;
+	height: 300px;
+	border-radius: 6px;
+	overflow:hidden;
+        z-index: 1001;
+/*	-webkit-mask-box-image: url(img/rect.svg); */
+}
+#remoteVideo {
+        top: 50px;
+        left: 500px;
+/*	-webkit-box-reflect: below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), to(rgba(0,0,0,0.4)), color-stop(0.5, transparent));
+*/	width: 300px;
+	height: 300px;
+	position: absolute;
+	margin: 0 auto;
+        z-index: 1001;
+}

@@ -26,9 +26,9 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>org.xwiki.contrib</groupId>
+    <groupId>org.xwiki.contrib.chat</groupId>
     <artifactId>xwiki-platform-chat-distribution</artifactId>
-    <version>5.1</version>
+    <version>1.0-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-platform-chat-distribution-ui-all</artifactId>
   <packaging>xar</packaging>
@@ -41,7 +41,7 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.xwiki.contrib</groupId>
+      <groupId>org.xwiki.contrib.chat</groupId>
       <artifactId>xwiki-platform-chat-ui</artifactId>
       <version>${project.version}</version>
       <type>xar</type>
@@ -49,7 +49,7 @@
     <dependency>
       <groupId>org.xwiki.enterprise</groupId>
       <artifactId>xwiki-enterprise-ui-all</artifactId>
-      <version>${project.version}</version>
+      <version>5.1</version>
       <type>xar</type>
     </dependency>
   </dependencies>

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>ChatCode</web>
+  <name>ChatSheet</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>ChatCode.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1386188476000</creationDate>
+  <date>1386606519000</date>
+  <contentUpdateDate>1386243488000</contentUpdateDate>
+  <version>1.1</version>
+  <title/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>true</hidden>
+  <content>{{velocity}}
+#if($context.user!="XWiki.XWikiGuest"&amp;&amp;$doc.fullName!="ChatCode.ChatSheet" &amp;&amp; $context.action=="view")
+#set($baseurl = $xwiki.getDocument("ChatCode.ChatSheet").getAttachmentURL("candy.zip"))
+{{html clean="false"}}
+&lt;style type="text/css"&gt;
+@import url("${baseurl}/candy/css/candy.css");
+
+#candy {
+  height: 30px;
+}
+
+div#candy:hover {
+  height: 400px;
+}
+
+div#candy:hover #chat-toolbar, div#candy:hover #chat-rooms {
+  display: block !important;
+}
+
+#chat-rooms {
+  display: none;
+}
+
+#chat-toolbar {
+  display: none !important; 
+}
+
+#context-menu .webrtc {
+        background-image: url('${baseurl}/candy/css/img/telephone.png');
+}
+
+#chat-tabs .webrtc {
+        background-image: url('${baseurl}/candy/css/img/telephone.png');
+        width: 16px;
+        height: 16px;
+        padding: 0;
+        margin-left: 5px;
+}
+
+#chat-tabs .webrtc-calling {
+        background-image: url('${baseurl}/candy/css/img/telephone_calling.png');
+}
+
+#chat-tabs .webrtc-calling:hover {
+        background-image: url('${baseurl}/candy/css/img/telephone_hangup.png') !important;
+}
+
+.message-pane.webrtc {
+        margin-top: 285px;
+}
+#webrtc-videos.active {
+        position: relative;
+        background-color: #000;
+        height: 280px;
+        padding: 2px;
+        margin-right: 200px;
+        text-align: center;
+}
+#webrtc-videos.active video {
+        -webkit-transform: rotateY(180deg);
+}
+#localVideo {
+        position: absolute;
+        top: 50px;
+        margin: 0 auto;
+        width: 300px;
+        height: 300px;
+        border-radius: 6px;
+        overflow:hidden;
+        z-index: 1001;
+}
+#remoteVideo {
+        top: 50px;
+        left: 500px;
+        width: 300px;
+        height: 300px;
+        position: absolute;
+        margin: 0 auto;
+        z-index: 1001;
+}
+
+#webrtcvideo {
+        display: none;
+}
+&lt;/style&gt;
+&lt;script type="text/javascript"&gt;
+require.config({
+paths: {
+               candylibs: "${baseurl}/candy/js/candy-libs",
+               candy: "${baseurl}/candy/js/candy",
+               candywebrtc: "${baseurl}/candy/js/candy-webrtc",
+               adapter: "${baseurl}/candy/js/adapter",
+               },
+
+shim: {
+ 'candy' : {
+  deps: ['candylibs', 'jquery']
+ },
+ 'candylibs' : {
+  deps: ['jquery']
+ },
+ 'candywebrtc' : {
+  deps: ['adapter', 'candy']
+ }
+ }
+});
+
+require(['jquery', 'candy', 'candywebrtc'], function($) {
+    $.browser = browser;
+
+    $(document).ready(function() {
+                        Candy.init('/xwiki/bosh', {
+                                core: { debug: false, autojoin: ["wiki@chat.xwiki", "${doc.fullName}@chat.xwiki"] },
+                                view: { resources: '${baseurl}/candy/css/' }
+                        });
+                        
+                        ice_config = {iceServers: [{url: 'stun:stun.l.google.com:19302'}, 
+                                                               {url: 'turn:webrtc.xwiki.com:3478?transport=udp', credential: 'xwikirox', username: 'xwiki'},
+                                                               {url: 'turn:webrtc.xwiki.com:3478?transport=tcp', credential: 'xwikirox', username: 'xwiki'},
+                                                               {url: 'turn:webrtc.xwiki.com:3479?transport=udp', credential: 'xwikirox', username: 'xwiki'},
+                                                               {url: 'turn:webrtc.xwiki.com:3479?transport=tcp', credential: 'xwikirox', username: 'xwiki'}
+                                                               ]},
+
+                        CandyShop.WebRTC.init(ice_config);
+                        Candy.Core.connect("xwiki@xwiki", null, "${xwiki.getUserName($context.user, false)}");
+    });
+});
+&lt;/script&gt;
+ &lt;div id="webrtcvideo"&gt;
+  &lt;video id="localVideo" autoplay="autoplay" muted="true"&gt;&lt;/video&gt;
+  &lt;video id="remoteVideo" autoplay="autoplay" &gt;&lt;/video&gt;
+ &lt;/div&gt;
+ &lt;div id="candy"&gt;&lt;/div&gt;
+{{/html}}
+#elseif($context.action=="view")
+You need to login to start the chat system
+#end
+{{/velocity}}</content>
+  <renderedcontent>&lt;p&gt;You need to login to start the chat system&lt;/p&gt;</renderedcontent>
+</xwikidoc>

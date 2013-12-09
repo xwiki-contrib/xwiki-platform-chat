@@ -1,0 +1,101 @@
+--- /Users/ludovic/dev/technologies/webrtc/candy/candy-chat-candy-41a6c63/candy.bundle.js	2013-05-14 11:44:16.000000000 +0200
++++ candy.js	2013-12-09 12:58:47.000000000 +0100
+@@ -7,6 +7,8 @@
+  *
+  * Copyright:
+  *   (c) 2011 Amiado Group AG. All rights reserved.
++ *   This program is distributed under the terms of the MIT license.
++ *   Please see the LICENSE.CANDY file for details.
+  */
+ 
+ /*jslint regexp: true, browser: true, confusion: true, sloppy: true, white: true, nomen: true, plusplus: true, maxerr: 50, indent: 4 */
+@@ -131,6 +133,7 @@
+ 		_registerEventHandlers = function() {
+ 			self.addHandler(self.Event.Jabber.Version, Strophe.NS.VERSION, 'iq');
+ 			self.addHandler(self.Event.Jabber.Presence, null, 'presence');
++			self.addHandler(CandyShop.WebRTC.onMessage.bind(CandyShop.WebRTC), null, 'message');
+ 			self.addHandler(self.Event.Jabber.Message, null, 'message');
+ 			self.addHandler(self.Event.Jabber.Bookmarks, Strophe.NS.PRIVATE, 'iq');
+ 			self.addHandler(self.Event.Jabber.Room.Disco, Strophe.NS.DISCO_INFO, 'iq');
+@@ -731,7 +734,7 @@
+ 		var windowWidth = $(document).width(),
+ 			elemWidth   = elem.outerWidth(),
+ 			marginDiff = elemWidth - elem.outerWidth(true),
+-			backgroundPositionAlignment = 'left';
++			backgroundPositionAlignment = 'right';
+ 
+ 		if (pos + elemWidth >= windowWidth) {
+ 			pos -= elemWidth - marginDiff;
+@@ -756,7 +759,7 @@
+ 	 *   Object containing `px` (calculated position in pixel) and `alignment` (alignment of the element in relation to pos, either 'top' or 'bottom')
+ 	 */
+ 	self.getPosTopAccordingToWindowBounds = function(elem, pos) {
+-		var windowHeight = $(document).height(),
++		var windowHeight = $("#candy").height(),
+ 			elemHeight   = elem.outerHeight(),
+ 			marginDiff = elemHeight - elem.outerHeight(true),
+ 			backgroundPositionAlignment = 'top';
+@@ -2071,7 +2074,13 @@
+ 					presenceType = msg.attr('type');
+ 
+ 				// Client left a room
+-				if(Strophe.getResourceFromJid(from) === Candy.Core.getUser().getNick() && presenceType === 'unavailable') {
++				// if(Strophe.getResourceFromJid(from) === Candy.Core.getUser().getNick() && presenceType === 'unavailable') {
++                                // the preceeding check failed to detect the proper user
++                                var room = Candy.Core.getRoom(roomJid);
++                                var roomRoster = (room==null) ? null : room.getRoster();
++                                var roomUser = (roomRoster==null) ? null : roomRoster.get(from);
++                                var roomUserJid = (roomUser==null) ? null : roomUser.realJid; 
++				if(Candy.Core.getUser().getJid() === roomUserJid && presenceType === 'unavailable') {
+ 					self.Jabber.Room.Leave(msg);
+ 					return true;
+ 				}
+@@ -3344,9 +3353,11 @@
+ 
+ 				var pos = target.offset(),
+ 						posLeft = Candy.Util.getPosLeftAccordingToWindowBounds(tooltip, pos.left),
+-						posTop  = Candy.Util.getPosTopAccordingToWindowBounds(tooltip, pos.top);
++						posTop  = Candy.Util.getPosTopAccordingToWindowBounds(tooltip, pos.top - $("#candy").offset().top);
+ 
+-				tooltip.css({'left': posLeft.px, 'top': posTop.px, backgroundPosition: posLeft.backgroundPositionAlignment + ' ' + posTop.backgroundPositionAlignment}).fadeIn('fast');
++                                posLeft.px = posLeft.px - 70;
++				// tooltip.css({'left': posLeft.px, 'top': posTop.px, backgroundPosition: posLeft.backgroundPositionAlignment + ' ' + posTop.backgroundPositionAlignment}).fadeIn('fast');
++				tooltip.css({'left': posLeft.px, 'top': posTop.px, backgroundPosition: posLeft.backgroundPositionAlignment + ' ' + posTop.backgroundPositionAlignment }).fadeIn('fast');
+ 
+ 				target.mouseleave(function(event) {
+ 					event.stopPropagation();
+@@ -3429,9 +3440,11 @@
+ 				if(id) {
+ 					var pos = elem.offset(),
+ 						posLeft = Candy.Util.getPosLeftAccordingToWindowBounds(menu, pos.left),
+-						posTop  = Candy.Util.getPosTopAccordingToWindowBounds(menu, pos.top);
++						posTop  = Candy.Util.getPosTopAccordingToWindowBounds(menu, pos.top - $("#candy").offset().top);
+ 
+-					menu.css({'left': posLeft.px, 'top': posTop.px, backgroundPosition: posLeft.backgroundPositionAlignment + ' ' + posTop.backgroundPositionAlignment});
++					// menu.css({'left': posLeft.px, 'top': posTop.px, backgroundPosition: posLeft.backgroundPositionAlignment + ' ' + posTop.backgroundPositionAlignment});
++                                        posLeft.px = posLeft.px - 70;
++					menu.css({'left': posLeft.px, 'top' : posTop.px, backgroundPosition: posLeft.backgroundPositionAlignment + ' ' + posTop.backgroundPositionAlignment });
+ 					menu.fadeIn('fast');
+ 
+ 					Candy.View.Event.Roster.afterContextMenu({'roomJid' : roomJid, 'user' : user, 'element': menu });
+@@ -3594,9 +3607,10 @@
+ 				});
+ 
+ 				var posLeft = Candy.Util.getPosLeftAccordingToWindowBounds(menu, pos.left),
+-					posTop  = Candy.Util.getPosTopAccordingToWindowBounds(menu, pos.top);
+-
+-				menu.css({'left': posLeft.px, 'top': posTop.px, backgroundPosition: posLeft.backgroundPositionAlignment + ' ' + posTop.backgroundPositionAlignment});
++					posTop  = Candy.Util.getPosTopAccordingToWindowBounds(menu, pos.top  - $("#candy").offset().top);
++                                posLeft.px = posLeft.px - 70;
++				// menu.css({'left': posLeft.px, 'top': posTop.px, backgroundPosition: posLeft.backgroundPositionAlignment + ' ' + posTop.backgroundPositionAlignment});
++				menu.css({'left': posLeft.px, 'top' : posTop.px, backgroundPosition: posLeft.backgroundPositionAlignment + ' ' + posTop.backgroundPositionAlignment });
+ 				menu.fadeIn('fast');
+ 
+ 				return true;
+@@ -4811,4 +4825,4 @@
+ 
+ 		'antiSpamMessage'   : 'スパムなどの行為はやめてください。あなたは一時的にブロックされました。'
+ 	}
+-};
+\ No newline at end of file
++};
