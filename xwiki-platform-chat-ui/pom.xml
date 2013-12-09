@@ -32,13 +32,12 @@
   </parent>
   <artifactId>xwiki-platform-chat-ui</artifactId>
   <packaging>xar</packaging>
-
   <name>XWiki Platform - Chat - UI</name>
-
   <properties>
     <xwiki.clirr.skip>true</xwiki.clirr.skip>
+      <!-- Name to display by the Extension Manager -->
+    <xwiki.extension.name>XWiki Chat Application</xwiki.extension.name>
   </properties>
-
   <build>
     <plugins>
       <!-- Step 1: Download candy.zip -->

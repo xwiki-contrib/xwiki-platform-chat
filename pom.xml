@@ -34,11 +34,21 @@
   <artifactId>xwiki-platform-chat</artifactId>
   <packaging>pom</packaging>
   <version>1.0-SNAPSHOT</version>
-
   <name>XWiki Platform - Chat - Parent POM</name>
-
+  <developers>
+    <developer>
+      <id>fmancinelli</id>
+      <name>Fabio Mancinelli</name>
+    </developer>
+    <developer>
+      <id>ldubost</id>
+      <name>Ludovic Dubost</name>
+    </developer>
+  </developers>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <!-- Name to display by the Extension Manager -->
+    <xwiki.extension.name>XWiki Chat Application</xwiki.extension.name>
   </properties>
 
   <modules>

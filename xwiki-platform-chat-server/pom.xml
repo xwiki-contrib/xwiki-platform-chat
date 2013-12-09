@@ -31,13 +31,12 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
   <artifactId>xwiki-platform-chat-server</artifactId>
-
   <name>XWiki Platform - Chat - Server</name>
-
   <properties>
     <xwiki.clirr.skip>true</xwiki.clirr.skip>
+    <!-- Name to display by the Extension Manager -->
+    <xwiki.extension.name>XWiki Chat Application - Server Module</xwiki.extension.name>
   </properties>
-
   <dependencies>
     <dependency>
       <groupId>javax.servlet</groupId>
