@@ -34,7 +34,8 @@
   <artifactId>xwiki-platform-chat</artifactId>
   <packaging>pom</packaging>
   <version>1.0-SNAPSHOT</version>
-  <name>XWiki Platform - Chat - Parent POM</name>
+  <name>XWiki Chat Application - parent POM</name>
+  <description>XWiki Chat Application, based on XMPP, supporting WebRTC</description>
   <developers>
     <developer>
       <id>fmancinelli</id>

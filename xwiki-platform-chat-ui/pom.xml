@@ -32,7 +32,7 @@
   </parent>
   <artifactId>xwiki-platform-chat-ui</artifactId>
   <packaging>xar</packaging>
-  <name>XWiki Platform - Chat - UI</name>
+  <name>XWiki Chat Application - UI</name>
   <properties>
     <xwiki.clirr.skip>true</xwiki.clirr.skip>
       <!-- Name to display by the Extension Manager -->
